@@ -71,36 +71,13 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // 回退到配置中的用户列表
-    const configUsers = adminConfig.UserConfig.Users || [];
-    const total = configUsers.length;
-
-    // 排序：站长始终在第一位，其他用户按用户名排序
-    const sortedUsers = [...configUsers].sort((a, b) => {
-      if (a.username === process.env.USERNAME) return -1;
-      if (b.username === process.env.USERNAME) return 1;
-      return a.username.localeCompare(b.username);
-    });
-
-    // 分页
-    const paginatedUsers = sortedUsers.slice(offset, offset + limit);
-
-    // 转换为统一格式
-    const users = paginatedUsers.map((u) => ({
-      username: u.username,
-      role: u.role,
-      banned: u.banned || false,
-      tags: u.tags,
-      created_at: 0, // 配置中没有创建时间
-    }));
-
     return NextResponse.json(
       {
-        users,
-        total,
+        users: [],
+        total: 0,
         page,
         limit,
-        totalPages: Math.ceil(total / limit),
+        totalPages: 0,
       },
       {
         headers: {

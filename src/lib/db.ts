@@ -132,11 +132,7 @@ export class DbManager {
     return favorite !== null;
   }
 
-  // ---------- 用户相关（旧版本，保持兼容） ----------
-  async registerUser(userName: string, password: string): Promise<void> {
-    await this.storage.registerUser(userName, password);
-  }
-
+ 
   async verifyUser(userName: string, password: string): Promise<boolean> {
     return this.storage.verifyUser(userName, password);
   }

@@ -124,10 +124,6 @@ export async function POST(request: NextRequest) {
 
     // 检查用户名是否已存在（优先使用新版本）
     let userExists = await db.checkUserExistV2(username);
-    if (!userExists) {
-      // 回退到旧版本检查
-      userExists = await db.checkUserExist(username);
-    }
     if (userExists) {
       return NextResponse.json(
         { error: '用户名已存在' },

@@ -492,11 +492,6 @@ export abstract class BaseRedisStorage implements IStorage {
     return `u:${user}:pwd`;
   }
 
-  async registerUser(userName: string, password: string): Promise<void> {
-    // 简单存储明文密码，生产环境应加密
-    await this.withRetry(() => this.client.set(this.userPwdKey(userName), password));
-  }
-
   async verifyUser(userName: string, password: string): Promise<boolean> {
     const stored = await this.withRetry(() =>
       this.client.get(this.userPwdKey(userName))

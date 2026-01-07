@@ -6316,8 +6316,14 @@ function PlayPageClient() {
                               ? `${window.location.origin}/api/proxy-m3u8?url=${encodeURIComponent(urlToUse)}&source=${encodeURIComponent(currentSource)}${tokenParam}`
                               : urlToUse;
 
+                            // 如果链接是相对路径，补充完整的 base URL
+                            let finalUrl = proxyUrl;
+                            if (proxyUrl && !proxyUrl.startsWith('http://') && !proxyUrl.startsWith('https://')) {
+                              finalUrl = `${window.location.origin}${proxyUrl.startsWith('/') ? '' : '/'}${proxyUrl}`;
+                            }
+
                             // 复制到剪贴板
-                            navigator.clipboard.writeText(proxyUrl).then(() => {
+                            navigator.clipboard.writeText(finalUrl).then(() => {
                               setToast({
                                 message: '视频链接已复制到剪贴板',
                                 type: 'success',
